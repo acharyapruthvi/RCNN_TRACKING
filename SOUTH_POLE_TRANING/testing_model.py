@@ -54,7 +54,8 @@ def calculate_iou(predicted_mask, actual_mask):
 model_path = '/home/pruthvi/Desktop/MARCI_VIDEOS/CODE/SOUTH_POLE/SP_IS.pth'
 model = load_model(model_path, num_classes=2)
 image_path = '/home/pruthvi/Desktop/MARCI_VIDEOS/South_Pole/MY_31/D08_day25.jpg'
-image_png = imread(image_path)
+image_png = cv2.imread(image_path)
+image_png = cv2.resize(image_png, (1156, 1156)) 
 image_tensor = prepare_image(image_path)
 predicted_mask = predict(model, image_tensor).numpy() == 1  # Class 1 for the cap
 
@@ -72,8 +73,8 @@ contours_pred, hierarchy_pred = cv2.findContours(predicted_mask_uint8, cv2.RETR_
 cv2.drawContours(image_png, contours_pred, -1, (255, 0, 0), 3)  # Red contours for predicted mask
 
 # Find contours for actual mask
-contours_act, hierarchy_act = cv2.findContours(actual_mask_uint8, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-cv2.drawContours(image_png, contours_act, -1, (0, 255, 0), 3)  # Green contours for actual mask
+#contours_act, hierarchy_act = cv2.findContours(actual_mask_uint8, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+#cv2.drawContours(image_png, contours_act, -1, (0, 255, 0), 3)  # Green contours for actual mask
 
 # Display the comparison
 plt.imshow(cv2.cvtColor(image_png, cv2.COLOR_BGR2RGB))  # Convert BGR to RGB for matplotlib
